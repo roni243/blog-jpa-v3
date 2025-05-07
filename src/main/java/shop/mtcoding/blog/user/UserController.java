@@ -12,17 +12,19 @@ import shop.mtcoding.blog._core.util.Resp;
 
 import java.util.Map;
 
+//TODO
 @RequiredArgsConstructor
 @Controller
 public class UserController {
     private final UserService userService;
     private final HttpSession session;
 
-    // TODO : JWT 이후에
-    @PostMapping("/user/update")
-    public String update(@Valid UserRequest.UpdateDTO updateDTO, Errors errors) {
+
+    @PutMapping("/s/api/user")
+    public String update(@Valid @RequestBody UserRequest.UpdateDTO updateDTO, Errors errors) {
         User sessionUser = (User) session.getAttribute("sessionUser");
         // update user_tb set password = ?, email = ? where id = ?
+        // TODO : JWT 이후에
         User userPS = userService.회원정보수정(updateDTO, sessionUser.getId());
         // 세션 동기화
         session.setAttribute("sessionUser", userPS);
@@ -44,7 +46,7 @@ public class UserController {
 
     // TODO : JWT 이후에
     @PostMapping("/login")
-    public String login(@Valid UserRequest.LoginDTO loginDTO, Errors errors, HttpServletResponse response) {
+    public @ResponseBody Resp<?> login(@Valid @RequestBody UserRequest.LoginDTO loginDTO, Errors errors, HttpServletResponse response) {
         //System.out.println(loginDTO);
         User sessionUser = userService.로그인(loginDTO);
         session.setAttribute("sessionUser", sessionUser);
@@ -59,7 +61,7 @@ public class UserController {
             response.addCookie(cookie);
         }
 
-        return "redirect:/";
+        return Resp.ok("로그인 완료");
     }
 
     // TODO : JWT 이후에
