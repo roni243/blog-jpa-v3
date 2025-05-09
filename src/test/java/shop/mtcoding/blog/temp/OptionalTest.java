@@ -24,8 +24,8 @@ public class OptionalTest {
     @Test
     public void t1() {
         String name = "metacoding";
-        Optional<String> opt = Optional.ofNullable(name);
-        //System.out.println(opt.get());
+        Optional<String> opt = Optional.of(name);
+        System.out.println(opt.get());
 
         if (opt.isPresent()) {
             System.out.println(opt.get());
