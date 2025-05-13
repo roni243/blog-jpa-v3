@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 public class AuthorizationFilter implements Filter {
+
     @Override
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) req;
@@ -32,7 +33,7 @@ public class AuthorizationFilter implements Filter {
 
             User user = JwtUtil.verify(accessToken);
 
-            // 토큰을 다시 검증하기 귀찮아서, 임시로 세션에 넣어둔거다.
+            // 토큰을 다시 검증하기 싫어서, 임시로 세션에 넣어둔거다
             HttpSession session = request.getSession();
             session.setAttribute("sessionUser", user);
 
@@ -47,6 +48,8 @@ public class AuthorizationFilter implements Filter {
             e3.printStackTrace();
             exResponse(response, e3.getMessage());
         }
+
+
     }
 
     private void exResponse(HttpServletResponse response, String msg) throws IOException {
@@ -58,4 +61,5 @@ public class AuthorizationFilter implements Filter {
         String responseBody = new ObjectMapper().writeValueAsString(resp);
         out.println(responseBody);
     }
+
 }

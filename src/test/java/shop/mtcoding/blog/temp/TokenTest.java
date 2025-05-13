@@ -48,8 +48,6 @@ public class TokenTest {
                 .id(id)
                 .username(username)
                 .build();
-
-
     }
 
 
